@@ -1,1 +1,33 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+
+contract PriceConsumer {
+    AggregatorV3Interface internal priceFeed;
+
+    /**
+     * Network: Arbitrum Sepolia
+     * Aggregator: ETH/USD
+     * Address: [0xd30e2101a97dcbAeBCBC04F14C3f624E67A35165]
+     */
+    constructor() {
+        // Address of the Chainlink Oracle Price Feed on Arbitrum Sepolia
+        priceFeed = AggregatorV3Interface(0xd30e2101a97dcbAeBCBC04F14C3f624E67A35165);
+    }
+
+    /**
+     * Returns the latest price of ETH/USD
+     */
+    function getLatestPrice() public view returns (int) {
+        (
+            uint80 roundID, 
+            int price,
+            uint startedAt,
+            uint timeStamp,
+            uint80 answeredInRound
+        ) = priceFeed.latestRoundData();
+        return price;
+    }
+}
 
